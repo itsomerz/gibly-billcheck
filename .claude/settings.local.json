@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Copy-Item *)",
+      "mcp__ide__getDiagnostics",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(Stop-Process *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(npm *.)",
+      "PowerShell(npm run *)",
+      "PowerShell(Get-Command *)"
+    ]
+  }
+}
