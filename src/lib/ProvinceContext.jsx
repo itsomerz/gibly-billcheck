@@ -22,6 +22,10 @@ export function ProvinceProvider({ children }) {
   // always Alberta and then updates if a different province was saved.
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
+    // Intentional: syncing from localStorage after mount, not derived from
+    // props/state, so first paint stays AB on both server and client and
+    // avoids a hydration mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (saved && PROVINCES[saved]) setProvinceState(saved);
   }, []);
 

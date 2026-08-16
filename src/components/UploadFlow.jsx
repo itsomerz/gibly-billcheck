@@ -103,7 +103,7 @@ export function UploadScreen({ onExtracted }) {
       </div>
       <div style={{ fontFamily: F.display, fontWeight: 600, fontSize: 22, marginBottom: 6 }}>Upload your bill</div>
       <p style={{ color: P.lilac, fontSize: 14.5, lineHeight: 1.55, margin: "0 auto 22px", maxWidth: 380 }}>
-        A photo or PDF of your electricity or gas bill. We'll pull the rate, usage, and plan type — nothing else.
+        A photo or PDF of your electricity or gas bill. We&apos;ll pull the rate, usage, and plan type — nothing else.
       </p>
 
       <input ref={inputRef} type="file" accept={ACCEPT} style={{ display: "none" }} onChange={(e) => pickFile(e.target.files?.[0])} />
@@ -283,7 +283,7 @@ export function ConfirmScreen({ extracted, onConfirm, onCancel }) {
         <span style={{ fontFamily: F.display, fontWeight: 600, fontSize: 18 }}>Does this look right?</span>
       </div>
       <p style={{ color: P.lilac, fontSize: 12.5, margin: "0 0 20px", paddingLeft: 39 }}>
-        We read these off your bill. Fix anything that's off before we compare rates.
+        We read these off your bill. Fix anything that&apos;s off before we compare rates.
         {elec && gas ? " Your bill covers both electricity and gas, so there are two sections below." : ""}
       </p>
 

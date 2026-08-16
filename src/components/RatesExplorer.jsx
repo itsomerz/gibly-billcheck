@@ -114,7 +114,7 @@ export default function RatesExplorer() {
           <span style={{ fontFamily: F.display, fontWeight: 600, fontSize: 22 }}>Explore all {provinceData.name} rates</span>
         </div>
         <p style={{ color: P.lilac, fontSize: 14, lineHeight: 1.55, margin: 0 }}>
-          Every {provinceData.name} electricity and natural gas offer we track, ranked purely by price — cheapest first, no pay-to-rank. Tap a rate to confirm it on the retailer's own page.
+          Every {provinceData.name} electricity and natural gas offer we track, ranked purely by price — cheapest first, no pay-to-rank. Tap a rate to confirm it on the retailer&apos;s own page.
         </p>
       </div>
 
@@ -130,7 +130,7 @@ export default function RatesExplorer() {
       </div>
 
       <div className="fu3" style={{ background: P.plum2, border: `1px solid ${P.line}`, borderRadius: 16, padding: 16, fontSize: 12.5, color: P.lilac, lineHeight: 1.55 }}>
-        Ranked by <b style={{ color: P.cream }}>price alone</b> — no retailer pays to rank higher, math does the sorting. We only compare the <b style={{ color: P.cream }}>energy rate</b>, the part you control — delivery and admin fees are the same no matter who you buy from. Every rate is an <b style={{ color: P.cream }}>estimate as of its listed date</b>; rates move often, so confirm on the retailer's official page before you switch. Rows marked <span style={{ color: P.coral, fontWeight: 600 }}>confirm rate</span> haven't been checked against a primary source yet.
+        Ranked by <b style={{ color: P.cream }}>price alone</b> — no retailer pays to rank higher, math does the sorting. We only compare the <b style={{ color: P.cream }}>energy rate</b>, the part you control — delivery and admin fees are the same no matter who you buy from. Every rate is an <b style={{ color: P.cream }}>estimate as of its listed date</b>; rates move often, so confirm on the retailer&apos;s official page before you switch. Rows marked <span style={{ color: P.coral, fontWeight: 600 }}>confirm rate</span> haven&apos;t been checked against a primary source yet.
       </div>
     </GiblyShell>
   );

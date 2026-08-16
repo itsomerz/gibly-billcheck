@@ -66,16 +66,16 @@ export default function RateAlertForm({ bill }) {
       <div style={{ width: 44, height: 44, borderRadius: 13, background: `${P.gold}22`, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
         <Bell size={22} color={P.gold} />
       </div>
-      <div style={{ fontFamily: F.display, fontWeight: 600, fontSize: 20, marginBottom: 5 }}>We'll keep watch</div>
+      <div style={{ fontFamily: F.display, fontWeight: 600, fontSize: 20, marginBottom: 5 }}>We&apos;ll keep watch</div>
 
       {status === "done" ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: P.mint, fontWeight: 600, fontSize: 14, padding: "8px 0" }}>
-          <Check size={16} /> You're set — we'll email you when a better rate shows up.
+          <Check size={16} /> You&apos;re set — we&apos;ll email you when a better rate shows up.
         </div>
       ) : (
         <>
           <p style={{ color: P.lilac, fontSize: 14, margin: "0 0 16px", lineHeight: 1.5 }}>
-            Rates move all the time. We'll ping you the second one dips below your {chosen.displayRate} — no more checking.
+            Rates move all the time. We&apos;ll ping you the second one dips below your {chosen.displayRate} — no more checking.
           </p>
 
           {available.length > 1 && (

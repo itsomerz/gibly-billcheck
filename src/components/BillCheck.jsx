@@ -231,8 +231,8 @@ function RankedView({ utilityType, data }) {
         </div>
         <div style={{ color: P.lilac, fontSize: 14, marginBottom: 20 }}>a year, on {isGas ? "gas" : "electricity"} alone</div>
         <p style={{ color: P.cream, fontSize: 15.5, lineHeight: 1.55, margin: "0 auto", maxWidth: 400, opacity: 0.9 }}>
-          You're on <b style={{ color: P.gold }}>{userRate}{unit === "$" ? " $/GJ" : "¢/kWh"}</b>
-          {!isGas && defaultElec && <> — better than {provinceData.name}'s {defaultElec.rate}¢ default, nice</>} — but <b style={{ color: P.mint }}>{cheapest.name}</b> is charging just <b style={{ color: P.mint }}>{unit === "$" ? `$${cheapest.rate}` : `${cheapest.rate}¢`}</b>. That gap is your money.
+          You&apos;re on <b style={{ color: P.gold }}>{userRate}{unit === "$" ? " $/GJ" : "¢/kWh"}</b>
+          {!isGas && defaultElec && <> — better than {provinceData.name}&apos;s {defaultElec.rate}¢ default, nice</>} — but <b style={{ color: P.mint }}>{cheapest.name}</b> is charging just <b style={{ color: P.mint }}>{unit === "$" ? `$${cheapest.rate}` : `${cheapest.rate}¢`}</b>. That gap is your money.
         </p>
       </div>
 
@@ -376,7 +376,7 @@ function HonestyNote() {
   const { provinceData } = useProvince();
   return (
     <div className="fu4" style={{ background: P.plum2, border: `1px solid ${P.line}`, borderRadius: 16, padding: 16, fontSize: 12.5, color: P.lilac, lineHeight: 1.55, marginBottom: 16 }}>
-      We only compare the <b style={{ color: P.cream }}>energy rate</b> — the bit you control. Delivery and admin fees are the same no matter who you buy from. Every "check this rate" opens the retailer's <b style={{ color: P.cream }}>official page</b> so you can confirm it — no signup links, no referral fees, and ads never change the ranking. Year-ahead figures are <b style={{ color: P.cream }}>estimates</b> from your usage and typical {provinceData.name} seasons.
+      We only compare the <b style={{ color: P.cream }}>energy rate</b> — the bit you control. Delivery and admin fees are the same no matter who you buy from. Every &quot;check this rate&quot; opens the retailer&apos;s <b style={{ color: P.cream }}>official page</b> so you can confirm it — no signup links, no referral fees, and ads never change the ranking. Year-ahead figures are <b style={{ color: P.cream }}>estimates</b> from your usage and typical {provinceData.name} seasons.
     </div>
   );
 }

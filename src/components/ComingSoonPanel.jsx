@@ -50,13 +50,13 @@ export default function ComingSoonPanel({ provinceName }) {
       </div>
       <div style={{ fontFamily: F.display, fontWeight: 600, fontSize: 22, marginBottom: 6 }}>{provinceName} is coming soon</div>
       <p style={{ color: P.lilac, fontSize: 14.5, lineHeight: 1.55, margin: "0 auto 22px", maxWidth: 380 }}>
-        We're still building out verified rate data for {provinceName}. Switch provinces above to try Alberta today, or leave your email and we'll let you know the moment {provinceName} is live.
-        {" "}If this doesn't look right — say a bill got misread — switch provinces above and try again.
+        We&apos;re still building out verified rate data for {provinceName}. Switch provinces above to try Alberta today, or leave your email and we&apos;ll let you know the moment {provinceName} is live.
+        {" "}If this doesn&apos;t look right — say a bill got misread — switch provinces above and try again.
       </p>
 
       {joined ? (
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: P.mint, fontWeight: 600, fontSize: 14 }}>
-          <Check size={16} /> You're on the list — we'll email you.
+          <Check size={16} /> You&apos;re on the list — we&apos;ll email you.
         </div>
       ) : (
         <div style={{ display: "flex", gap: 8, maxWidth: 380, margin: "0 auto" }}>
