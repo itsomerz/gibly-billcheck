@@ -74,6 +74,15 @@ export default function GiblyShell({ children }) {
       </header>
 
       <main style={{ width: "100%", maxWidth: 600 }}>{children}</main>
+
+      <footer style={{ width: "100%", maxWidth: 600, padding: "28px 0 8px", display: "flex", justifyContent: "center", gap: 18 }}>
+        <Link href="/privacy" className="tap" style={{ fontSize: 12.5, color: P.lilac, textDecoration: "underline" }}>
+          Privacy Policy
+        </Link>
+        <Link href="/terms" className="tap" style={{ fontSize: 12.5, color: P.lilac, textDecoration: "underline" }}>
+          Terms &amp; Disclaimer
+        </Link>
+      </footer>
     </div>
   );
 }
