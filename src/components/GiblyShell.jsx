@@ -7,7 +7,7 @@ import { P, F } from "@/lib/theme";
 import ProvinceSelect from "./ProvinceSelect";
 
 const NAV_LINKS = [
-  { href: "/", label: "Bill check" },
+  { href: "/", label: "BillZap" },
   { href: "/rates", label: "All rates" },
 ];
 
@@ -41,7 +41,7 @@ export default function GiblyShell({ children }) {
             <Sparkles size={17} color={P.plum} fill={P.plum} />
           </div>
           <span style={{ fontFamily: F.display, fontWeight: 600, fontSize: 20, letterSpacing: -0.5 }}>
-            gibly<span style={{ color: P.lilac, fontWeight: 400, fontStyle: "italic" }}> bill check</span>
+            BillZap
           </span>
         </div>
 

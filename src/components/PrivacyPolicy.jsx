@@ -213,7 +213,7 @@ const SECTIONS = [
           {CONTACT_EMAIL}
         </a>
         <br />
-        Gibly — gibly bill check
+        Gibly — BillZap
         <br />
         Alberta, Canada
       </p>
@@ -238,7 +238,7 @@ export default function PrivacyPolicy() {
         <div style={{ color: P.lilac, fontSize: 13, marginBottom: 24 }}>Last updated: {LAST_UPDATED}</div>
 
         <p style={pStyle}>
-          This Privacy Policy explains how gibly bill check (&quot;we,&quot; &quot;us,&quot; &quot;our&quot;), a
+          This Privacy Policy explains how BillZap (&quot;we,&quot; &quot;us,&quot; &quot;our&quot;), a
           service operated by Gibly, handles information when you use our energy bill comparison tool (the
           &quot;Service&quot;). We&apos;ve written it in plain language because we want you to actually understand
           what we do with your information — which, by design, is very little.

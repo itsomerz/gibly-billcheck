@@ -134,7 +134,7 @@ export default function RateAlertForm({ bill }) {
           <label style={{ display: "flex", alignItems: "flex-start", gap: 8, maxWidth: 380, margin: "0 auto", textAlign: "left", fontSize: 12, color: P.lilac, lineHeight: 1.45, cursor: "pointer" }}>
             <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 2, flexShrink: 0, cursor: "pointer" }} />
             <span>
-              I agree to receive rate-alert emails from Gibly and have read the{" "}
+              I agree to receive rate-alert emails from BillZap and have read the{" "}
               <Link href="/privacy" target="_blank" style={{ color: P.gold, textDecoration: "underline" }}>
                 Privacy Policy
               </Link>

@@ -2,7 +2,7 @@ import { P, F } from "@/lib/theme";
 import { safeRedirectPath } from "@/lib/betaAuth";
 
 export const metadata = {
-  title: "gibly bill check — private beta",
+  title: "BillZap — private beta",
 };
 
 export default async function BetaGatePage({ searchParams }) {
@@ -38,7 +38,7 @@ export default async function BetaGatePage({ searchParams }) {
         }}
       >
         <div style={{ fontFamily: F.display, fontWeight: 600, fontSize: 22, marginBottom: 6 }}>
-          gibly bill check
+          BillZap
         </div>
         <div style={{ color: P.lilac, fontSize: 14, marginBottom: 20 }}>
           Private beta — enter the access password to continue.
