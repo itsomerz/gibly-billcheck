@@ -5,6 +5,7 @@ import { Zap, Flame, ArrowRight, Trophy, ExternalLink } from "lucide-react";
 import { P, F } from "@/lib/theme";
 import { supabase } from "@/lib/supabase";
 import { useProvince } from "@/lib/ProvinceContext";
+import { formatVerifiedDate } from "@/lib/rateTable";
 import { UploadScreen, ConfirmScreen } from "./UploadFlow";
 import GiblyShell from "./GiblyShell";
 import ComingSoonPanel from "./ComingSoonPanel";
@@ -217,6 +218,7 @@ function RankedView({ utilityType, data }) {
   const hiddenCount = ranked.length - visibleRows.length;
 
   const defaultElec = provinceData.defaults.electricity; // null if the province has no regulated-default data yet
+  const verifiedDate = formatVerifiedDate(provinceData.last_verified_at);
 
   return (
     <div>
@@ -291,6 +293,22 @@ function RankedView({ utilityType, data }) {
         {showAll && ranked.length > TOP_N && (
           <button className="tap" onClick={() => setShowAll(false)} style={{ width: "100%", background: "transparent", border: `1px dashed ${P.line}`, borderRadius: 12, padding: "10px", color: P.lilac, fontSize: 13, fontWeight: 500, marginTop: 4, fontFamily: F.body }}>Show less</button>
         )}
+
+        {/* Trust footer: when the data was last hand-verified, plus a plain
+            disclaimer that these are public-source figures, not a live feed.
+            verifiedDate is null until a province has ever been verified (e.g.
+            a fresh "coming soon" province), in which case we just skip the
+            date line rather than showing a fake/empty one. */}
+        <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px dashed ${P.line}` }}>
+          {verifiedDate && (
+            <div style={{ color: P.lilac, fontSize: 11.5, fontWeight: 600, marginBottom: 4 }}>
+              Rates last verified: {verifiedDate}
+            </div>
+          )}
+          <div style={{ color: P.lilac, fontSize: 11.5, lineHeight: 1.5 }}>
+            These rates are compiled from public sources and are for information only. Always confirm the current rate directly with the provider before switching.
+          </div>
+        </div>
       </div>
     </div>
   );

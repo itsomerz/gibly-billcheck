@@ -12,7 +12,10 @@
 //     - status: "active" (real, comparable rate data) or "coming_soon"
 //       (the structure exists, no real rates yet — the UI shows a waitlist
 //       instead of a comparison for these)
-//     - currency, lastReviewed: province-level metadata
+//     - currency, last_verified_at: province-level metadata. last_verified_at
+//       is a "YYYY-MM-DD" string set manually today (see formatVerifiedDate
+//       below) — an automated refresh job can later write to this same field
+//       and the "rates last verified" label picks it up with no UI changes.
 //     - defaults: { electricity, gas } — the province's do-nothing/regulated
 //       default rate. Alberta calls this the "Rate of Last Resort (RoLR)";
 //       other provinces may use a different name or mechanism entirely, so
@@ -48,7 +51,7 @@ export const PROVINCES = {
     name: "Alberta",
     status: "active",
     currency: "CAD",
-    lastReviewed: "2026-08-03",
+    last_verified_at: "2026-08-25",
 
     // The default (do-nothing) rates — official, easy to track.
     defaults: {
@@ -218,7 +221,7 @@ export const PROVINCES = {
     name: "Ontario",
     status: "coming_soon",
     currency: "CAD",
-    lastReviewed: null,
+    last_verified_at: null,
 
     // No real data yet — structure only. Fill these in with sourced,
     // verified offers and flip status to "active" when Ontario launches.
@@ -237,6 +240,16 @@ export const PROVINCE_ORDER = ["AB", "ON"];
 
 export function getProvince(code) {
   return PROVINCES[code] ?? null;
+}
+
+// Human-friendly "rates last verified" label from a province's
+// last_verified_at ("YYYY-MM-DD"), e.g. "August 25, 2026". Parses the parts
+// manually rather than `new Date(isoString)` so the date can't shift a day
+// backward in timezones behind UTC.
+export function formatVerifiedDate(isoDate) {
+  if (!isoDate) return null;
+  const [y, m, d] = isoDate.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
 export function isProvinceActive(code) {
