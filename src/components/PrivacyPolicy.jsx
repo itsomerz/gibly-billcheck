@@ -2,7 +2,7 @@ import { P, F } from "@/lib/theme";
 import GiblyShell from "./GiblyShell";
 
 const CONTACT_EMAIL = "giblyapps@gmail.com";
-const LAST_UPDATED = "August 15, 2026";
+const LAST_UPDATED = "August 25, 2026";
 
 const pStyle = { color: P.lilac, fontSize: 14.5, lineHeight: 1.65, margin: "0 0 14px" };
 const ulStyle = { color: P.lilac, fontSize: 14.5, lineHeight: 1.65, margin: "0 0 14px", paddingLeft: 20, listStyle: "disc" };
