@@ -84,7 +84,7 @@ export const PROVINCES = {
       {
         retailer: "Get Energy",
         plan: "1-Year Fixed",
-        rate: 6.97,
+        rate: 6.57,
         unit: "cents_per_kwh",
         type: "fixed",
         termMonths: 12,
@@ -113,7 +113,7 @@ export const PROVINCES = {
       {
         retailer: "Encor by EPCOR",
         plan: "2-Year Fixed",
-        rate: 8.63,
+        rate: 7.79,
         unit: "cents_per_kwh",
         type: "fixed",
         termMonths: 24,
@@ -128,7 +128,7 @@ export const PROVINCES = {
       {
         retailer: "ATCO Energy",
         plan: "2-Year Fixed (bundle promo)",
-        rate: 7.68,
+        rate: 7.28,
         unit: "cents_per_kwh",
         type: "fixed",
         termMonths: 24,
@@ -142,7 +142,7 @@ export const PROVINCES = {
       {
         retailer: "Direct Energy",
         plan: "2-Year Fixed",
-        rate: 8.77,
+        rate: 7.99,
         unit: "cents_per_kwh",
         type: "fixed",
         termMonths: 24,
@@ -156,7 +156,7 @@ export const PROVINCES = {
       {
         retailer: "ENMAX Energy",
         plan: "Easymax Fixed (3-Year)",
-        rate: 8.79,
+        rate: 8.99,
         unit: "cents_per_kwh",
         type: "fixed",
         termMonths: 36,
@@ -176,7 +176,7 @@ export const PROVINCES = {
       {
         retailer: "Get Energy",
         plan: "Variable",
-        rate: 3.07,
+        rate: 2.84,
         unit: "dollars_per_gj",
         type: "variable",
         termMonths: 0,
@@ -190,7 +190,7 @@ export const PROVINCES = {
       {
         retailer: "ATCO Energy",
         plan: "2-Year Fixed (bundle)",
-        rate: 4.38,
+        rate: 3.68,
         unit: "dollars_per_gj",
         type: "fixed",
         termMonths: 24,
@@ -203,7 +203,7 @@ export const PROVINCES = {
       {
         retailer: "ENMAX Energy",
         plan: "Easymax Floating",
-        rate: 1.741,
+        rate: 1.51,
         unit: "dollars_per_gj",
         type: "variable",
         termMonths: 0,
@@ -280,4 +280,24 @@ export function rankedElectricity(code, { includeVariable = false } = {}) {
   return province.electricityOffers
     .filter((o) => includeVariable || o.type === "fixed")
     .sort((a, b) => a.rate - b.rate);
+}
+
+// --- Helper: every currently-listed offer, grouped by retailer, across all
+// ACTIVE provinces only (a "coming soon" province has no real offers to
+// verify). Used by the Updater agent (src/lib/updater.js) so it reads each
+// retailer's page once and compares against every offer that retailer has
+// in the table today, electricity and gas together.
+export function getAllRetailerOffers() {
+  const byRetailer = {};
+  for (const code of PROVINCE_ORDER) {
+    const province = PROVINCES[code];
+    if (province.status !== "active") continue;
+    for (const offer of province.electricityOffers) {
+      (byRetailer[offer.retailer] ??= []).push({ ...offer, utility_type: "electricity", province: code });
+    }
+    for (const offer of province.gasOffers) {
+      (byRetailer[offer.retailer] ??= []).push({ ...offer, utility_type: "gas", province: code });
+    }
+  }
+  return byRetailer;
 }
