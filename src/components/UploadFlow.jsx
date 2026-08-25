@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Upload, FileText, Image as ImageIcon, Loader2, AlertCircle, AlertTriangle, Info, Check, ChevronLeft, Zap, Flame } from "lucide-react";
+import { Upload, FileText, Image as ImageIcon, Camera, Loader2, AlertCircle, AlertTriangle, Info, Check, ChevronLeft, Zap, Flame } from "lucide-react";
 import { P, F } from "@/lib/theme";
 import ProvinceSelect from "./ProvinceSelect";
 
@@ -37,6 +37,7 @@ export function UploadScreen({ onExtracted }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   function pickFile(f) {
     setError("");
@@ -84,7 +85,12 @@ export function UploadScreen({ onExtracted }) {
         textAlign: "center",
       }}
     >
-      <style>{`.spin { animation: spin 0.9s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        .spin { animation: spin 0.9s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .camera-choice { display: none; }
+        @media (max-width: 640px) { .camera-choice { display: block; } }
+      `}</style>
 
       <div
         style={{
@@ -107,34 +113,63 @@ export function UploadScreen({ onExtracted }) {
       </p>
 
       <input ref={inputRef} type="file" accept={ACCEPT} style={{ display: "none" }} onChange={(e) => pickFile(e.target.files?.[0])} />
+      <input ref={cameraInputRef} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={(e) => pickFile(e.target.files?.[0])} />
 
       {!file ? (
-        <button
-          className="tap"
-          onClick={() => inputRef.current?.click()}
-          style={{
-            background: P.plum2,
-            border: `1px dashed ${P.line}`,
-            borderRadius: 16,
-            padding: "26px",
-            width: "100%",
-            maxWidth: 380,
-            margin: "0 auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 10,
-            color: P.lilac,
-            fontFamily: F.body,
-            fontSize: 14,
-          }}
-        >
-          <div style={{ display: "flex", gap: 10 }}>
-            <FileText size={20} color={P.gold} />
-            <ImageIcon size={20} color={P.mint} />
+        <>
+          <button
+            className="tap"
+            onClick={() => inputRef.current?.click()}
+            style={{
+              background: P.plum2,
+              border: `1px dashed ${P.line}`,
+              borderRadius: 16,
+              padding: "26px",
+              width: "100%",
+              maxWidth: 380,
+              margin: "0 auto",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 10,
+              color: P.lilac,
+              fontFamily: F.body,
+              fontSize: 14,
+            }}
+          >
+            <div style={{ display: "flex", gap: 10 }}>
+              <FileText size={20} color={P.gold} />
+              <ImageIcon size={20} color={P.mint} />
+            </div>
+            Tap to choose a PDF, JPG, or PNG
+          </button>
+
+          <div className="camera-choice" style={{ marginTop: 14 }}>
+            <button
+              className="tap"
+              onClick={() => cameraInputRef.current?.click()}
+              style={{
+                background: "transparent",
+                border: "none",
+                color: P.gold,
+                fontSize: 13,
+                fontFamily: F.body,
+                fontWeight: 600,
+                textDecoration: "underline",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                margin: "0 auto",
+              }}
+            >
+              <Camera size={14} /> Or take a photo now
+            </button>
+            <p style={{ color: P.lilac, fontSize: 11.5, marginTop: 8, lineHeight: 1.45, maxWidth: 320, marginLeft: "auto", marginRight: "auto" }}>
+              Taking a photo? Get all the rate details in frame, with good lighting.
+            </p>
           </div>
-          Tap to choose a PDF, JPG, or PNG
-        </button>
+        </>
       ) : (
         <div
           style={{
