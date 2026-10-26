@@ -1,0 +1,39 @@
+name: Weekly rate update
+
+# Propose-only: runs the Updater agent (src/lib/updater.js) and writes
+# "pending" rows to Supabase's rate_proposals table for manual review. Never
+# touches rateTable.js or anything the live app shows. See scripts/run-rate-updater.mjs.
+on:
+  schedule:
+    # Sunday ~11pm Mountain Time ≈ Monday 05:00 UTC (UTC-6, current MDT
+    # offset). Cron is UTC-only and doesn't shift for DST, so once MST
+    # starts (UTC-7, early November) this drifts to ~midnight Mountain —
+    # nudge the hour below if that start time starts to matter.
+    - cron: "0 5 * * 1"
+  workflow_dispatch: {} # manual "Run workflow" button in the Actions tab
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install app dependencies
+        run: npm ci
+
+      - name: Install Playwright (this job only — never committed to the repo)
+        run: |
+          npm install playwright@^1.62.1 --no-save
+          npx playwright install --with-deps chromium
+
+      - name: Run updater
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+        run: node scripts/run-rate-updater.mjs
