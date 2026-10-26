@@ -1,0 +1,33 @@
+name: Supabase keep-alive
+
+# Supabase's free tier pauses a project after ~7 days with no API
+# activity, and a paused project can't be resumed via API -- only from the
+# dashboard (resuming can take a few minutes, and the API can still 521 for
+# a bit after it looks active). The weekly rate-update job
+# (rate-update.yml) only touches Supabase once every 7 days, which sits
+# right at the pause threshold, so a single missed/late run leaves the
+# project vulnerable to pausing before the next one fires. This job does
+# nothing but a trivial read twice a week, purely to keep the project
+# active -- it has no connection to the rate-update logic itself.
+on:
+  schedule:
+    # Wednesday & Saturday ~08:13 UTC -- spread across the week so the
+    # longest gap between ANY Supabase activity (this + the Monday
+    # rate-update run) stays well under 7 days.
+    - cron: "13 8 * * 3,6"
+  workflow_dispatch: {} # manual "Run workflow" button in the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping Supabase (keep project active)
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl -sS -f \
+            -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+            "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/rate_proposals?select=id&limit=1"
