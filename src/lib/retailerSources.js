@@ -18,9 +18,25 @@
 //      a bug.
 export const RETAILER_SOURCES = {
   "Get Energy": {
-    // ✅ readable — homepage shows summary rates; signup page shows rates with
-    // an "as of" date. Good source.
-    url: "https://getenergy.ca/",
+    // ⚠️ updated 2026-10-25 — Get Energy restructured their site. The
+    // homepage (old url) only ever showed Fixed Electricity + Variable Gas;
+    // it never showed Variable Electricity at all, so every run since
+    // 2026-08-25 silently wrote "no matching electricity plan found" for
+    // that offer (see rate_proposals — caught when a human noticed the live
+    // app's variable rate was months stale). Rates now live on a dedicated
+    // /rates page with Fixed/Variable tabs for EACH utility:
+    //   - Electricity: Fixed is the default tab (no click needed), Variable
+    //     needs the "Variable Rate" tab clicked.
+    //   - Gas: rateTable.js only has a variable gas offer for Get Energy,
+    //     and gas's Variable tab also isn't the default here, so it needs
+    //     "Variable Rates" (plural — different label than electricity's)
+    //     clicked.
+    // Exact tab label text matters (updater.js clicks with exact:true).
+    url: "https://getenergy.ca/rates",
+    tabInteractions: {
+      electricity: [null, "Variable Rate"],
+      gas: "Variable Rates",
+    },
   },
   "Encor by EPCOR": {
     // ⚠️ location-gated — EPCOR pages say "this page doesn't match your
