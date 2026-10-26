@@ -43,6 +43,13 @@
 //
 //   Figures below were captured mid-2026 from public sources. They are a
 //   realistic SEED, not a live feed — wire real refresh before launch.
+//
+//   IMPORTANT — `note` is CUSTOMER-FACING (shown directly in the comparison
+//   UI, e.g. on each retailer's card). Keep it plain and relevant to the
+//   person comparing rates — no internal file names, no "the updater agent
+//   couldn't find this" debugging history, no dev-team commentary. Put that
+//   kind of context in a // comment above the offer object instead, where it
+//   stays out of the rendered page entirely.
 // ============================================================================
 
 export const PROVINCES = {
@@ -96,6 +103,10 @@ export const PROVINCES = {
         asOf: "2026-07",
         verified: true,
       },
+      // INTERNAL NOTE (not shown to users — see `note` below for the
+      // customer-facing text): corrected 2026-10-25, was stuck at 3.17 (as
+      // of 2026-06-29) for months because the updater agent couldn't find
+      // this specific rate on the old source page — see retailerSources.js.
       {
         retailer: "Get Energy",
         plan: "Variable (30-day avg)",
@@ -104,7 +115,7 @@ export const PROVINCES = {
         type: "variable",
         termMonths: 0,
         cancellationFee: false,
-        note: "30-day rolling avg as of 2026-10-19 (was 3.17 as of 2026-06-29 — wholesale prices rose substantially; that figure had also gone stale because the updater agent couldn't find this specific rate on the old source page — fixed 2026-10-25, see retailerSources.js). Market price + 0.70¢/kWh transaction fee, included in this figure. Changes MONTHLY per the retailer's page — display with a 'variable, moves' flag, never as a locked rate.",
+        note: "30-day rolling avg as of 2026-10-19. Market price + 0.70¢/kWh transaction fee, included in this figure. Changes MONTHLY — a floating rate, not a locked-in price.",
         source: "getenergy.ca/rates (Variable Rate tab)",
         sourceUrl: "https://getenergy.ca/rates",
         asOf: "2026-10-19",
