@@ -46,6 +46,7 @@ const RENDER_TIMEOUT_MS = 20_000; // headless render gets more time — real pag
 const MAX_PAGE_TEXT_CHARS = 30_000; // keeps the prompt (and cost) bounded; rate tables are usually well within this
 const THIN_TEXT_THRESHOLD = 200; // below this, a plain fetch is treated as "probably JS-rendered" and retried headless
 const RETAILER_CONCURRENCY = 2; // headless renders are heavy — don't run 5 Chromium pages at once locally
+
 const READING_SCHEMA = {
   type: "object",
   properties: {
@@ -114,6 +115,7 @@ WORKED EXAMPLE: the page text "pay just 3.59c/kWh until the end of the year. Jan
 VARIABLE or floating plans don't have one fixed number — never invent one. If the page states the rate only as something like "market price" or "market price + a fee" with no single figure, look instead for a stated period average (e.g. "30-day avg: $2.84/GJ", "90-day rolling average") and use THAT average as rate_value — not the fee, and not the bare words "market price". When you do this, set rate_is_average to true and rate_average_period to the stated period (e.g. "30-day avg"); otherwise set rate_is_average to false and rate_average_period to null. A variable/floating rate is a snapshot that will genuinely read differently next time this page is checked — that's expected, not a mistake.
 
 If this text doesn't actually contain rate plan pricing — a generic homepage with no rates, an error page, a blocked/paywalled page, or only unrelated content — set page_readable to false and return an empty readings array. Never invent a rate that isn't genuinely present in the text.`;
+
 // Collapses horizontal whitespace but keeps line breaks as real boundaries
 // between adjacent page elements — used by both the fetch and headless
 // paths, since running everything into one line is exactly what let a fee
@@ -214,6 +216,7 @@ async function mapWithConcurrency(items, limit, fn) {
   await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
   return results;
 }
+
 async function extractRatesFromText(retailer, pageText) {
   const res = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
@@ -295,6 +298,7 @@ function failureRow(offer, retailer, sourceUrl, reason, runId) {
     status: "pending",
   };
 }
+
 function matchedRow(offer, retailer, sourceUrl, matched, runId, readVia) {
   const introNote =
     matched?.intro_rate_value != null
@@ -359,26 +363,46 @@ async function attemptRead(retailer, url, sourceLabel, getText) {
 
   return { ok: true, sourceLabel, extraction };
 }
+
 // Splits a retailer's offers into the distinct page states needed to read
 // all of them, driven entirely by that retailer's tabInteractions config
 // (see retailerSources.js) — no retailer-specific code here. Utility types
 // not listed in tabInteractions share one default (no-click) state; each
 // utility type that IS listed gets its own state carrying the tab text to
-// click. A retailer with no tabInteractions at all (everyone except ENMAX
-// today) always gets exactly one default state — unchanged from before.
+// click. A retailer with no tabInteractions at all always gets exactly one
+// default state — unchanged from before.
+//
+// A tabInteractions entry can be:
+//   - a string (e.g. ENMAX's `gas: "Natural gas"`): that whole utility type
+//     is entirely behind one click — one click-only state, no default state
+//     for it.
+//   - an array (e.g. Get Energy's `electricity: [null, "Variable Rate"]`):
+//     that utility type needs MULTIPLE page states to see all its offers —
+//     some plans visible on the default (no-click) view, others only after
+//     a click. One state per array entry; `null` means "read this one
+//     without clicking anything" (the page's default tab). This is for a
+//     retailer whose fixed/variable split is a tab on the SAME utility,
+//     rather than a gas/electricity split like ENMAX's.
 function buildReadStates(retailer, offers) {
   const tabInteractions = RETAILER_SOURCES[retailer]?.tabInteractions ?? {};
   const utilityTypes = [...new Set(offers.map((o) => o.utility_type))];
 
   const states = [];
-  const defaultUtilities = utilityTypes.filter((u) => !tabInteractions[u]);
+  const defaultUtilities = [];
+  for (const u of utilityTypes) {
+    const config = tabInteractions[u];
+    if (config == null) {
+      defaultUtilities.push(u);
+    } else if (Array.isArray(config)) {
+      for (const clickText of config) {
+        states.push({ clickText: clickText ?? null, utilityTypes: [u] });
+      }
+    } else {
+      states.push({ clickText: config, utilityTypes: [u] });
+    }
+  }
   if (defaultUtilities.length > 0) {
     states.push({ clickText: null, utilityTypes: defaultUtilities });
-  }
-  for (const u of utilityTypes) {
-    if (tabInteractions[u]) {
-      states.push({ clickText: tabInteractions[u], utilityTypes: [u] });
-    }
   }
   return states;
 }
@@ -444,6 +468,7 @@ async function processRetailer(retailer, offers, runId, browser) {
     return matchedRow(o, retailer, url, null, runId, anyReadingForUtility?._readVia ?? "combined");
   });
 }
+
 export async function runUpdater() {
   if (!process.env.OPENAI_API_KEY) throw new Error("OPENAI_API_KEY is not set");
   if (!supabase) throw new Error("Supabase isn't configured (missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)");
