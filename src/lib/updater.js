@@ -36,9 +36,9 @@
 // ============================================================================
 
 import { chromium } from "playwright";
-import { supabase } from "./supabase";
-import { getAllRetailerOffers } from "./rateTable";
-import { RETAILER_SOURCES } from "./retailerSources";
+import { supabase } from "./supabase.js";
+import { getAllRetailerOffers } from "./rateTable.js";
+import { RETAILER_SOURCES } from "./retailerSources.js";
 
 const UPDATER_MODEL = "gpt-4o-mini"; // text-only extraction — no need for the pricier vision model used for bill photos
 const FETCH_TIMEOUT_MS = 10_000;
