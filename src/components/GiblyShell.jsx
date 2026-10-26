@@ -9,6 +9,7 @@ import ProvinceSelect from "./ProvinceSelect";
 const NAV_LINKS = [
   { href: "/", label: "BillZap" },
   { href: "/rates", label: "All rates" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export default function GiblyShell({ children }) {
