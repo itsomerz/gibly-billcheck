@@ -3,18 +3,22 @@ name: Supabase keep-alive
 # Supabase's free tier pauses a project after ~7 days with no API
 # activity, and a paused project can't be resumed via API -- only from the
 # dashboard (resuming can take a few minutes, and the API can still 521 for
-# a bit after it looks active). The weekly rate-update job
-# (rate-update.yml) only touches Supabase once every 7 days, which sits
-# right at the pause threshold, so a single missed/late run leaves the
-# project vulnerable to pausing before the next one fires. This job does
-# nothing but a trivial read twice a week, purely to keep the project
-# active -- it has no connection to the rate-update logic itself.
+# a bit after it looks active).
+#
+# INCIDENT (2026-11-08): this job had been pinging successfully twice a
+# week (Wed/Sat) and the project still paused -- it was already paused by
+# Nov 4, just 4 days after the last successful ping on Oct 31, well inside
+# the stated 7-day window. Root cause unconfirmed (Supabase doesn't
+# publish exactly what counts as "activity" for pause purposes, so a
+# single read-only endpoint may not be enough). Manually resumed from the
+# dashboard 2026-11-08. Mitigation: (a) run daily instead of twice a week,
+# shrinking the exposure window, and (b) hit two different tables per run
+# instead of one. If it still pauses on this cadence, the next escalation
+# is Pro ($25/mo), which has no pause behavior at all.
 on:
   schedule:
-    # Wednesday & Saturday ~08:13 UTC -- spread across the week so the
-    # longest gap between ANY Supabase activity (this + the Monday
-    # rate-update run) stays well under 7 days.
-    - cron: "13 8 * * 3,6"
+    # Daily ~08:13 UTC.
+    - cron: "13 8 * * *"
   workflow_dispatch: {} # manual "Run workflow" button in the Actions tab
 
 jobs:
@@ -31,3 +35,7 @@ jobs:
             -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
             -H "Authorization: Bearer $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
             "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/rate_proposals?select=id&limit=1"
+          curl -sS -f \
+            -H "apikey: $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+            -H "Authorization: Bearer $NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+            "$NEXT_PUBLIC_SUPABASE_URL/rest/v1/rate_alerts?select=id&limit=1"
