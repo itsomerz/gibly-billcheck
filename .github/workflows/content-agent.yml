@@ -1,1 +1,45 @@
-XTEST
+name: Weekly content agent
+
+# Fully autonomous: generates one new blog post via OpenAI
+# (src/lib/contentAgent.js) and writes it straight into
+# src/lib/blogPosts.js. Fails closed -- see scripts/run-content-agent.mjs
+# and contentAgent.js for the guardrails (schema validation, no
+# retailer-endorsement language, no duplicate slugs). No human review
+# before this lands on the live site, so the commit step below only fires
+# if blogPosts.js actually changed -- a skipped/failed run commits nothing.
+on:
+  schedule:
+    # Thursday ~14:17 UTC (minute nudged off :00 to avoid the GitHub
+    # Actions on-the-hour pile-up).
+    - cron: "17 14 * * 4"
+  workflow_dispatch: {} # manual "Run workflow" button in the Actions tab
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install app dependencies
+        run: npm ci
+
+      - name: Run content agent
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node scripts/run-content-agent.mjs
+
+      - name: Commit new post (only if something changed)
+        run: |
+          git config user.name "billzap-content-agent"
+          git config user.email "actions@github.com"
+          git add src/lib/blogPosts.js
+          git diff --cached --quiet && echo "No changes, skipping commit" && exit 0
+          git commit -m "Add weekly blog post (automated)"
+          git push
