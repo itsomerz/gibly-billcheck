@@ -24,7 +24,10 @@ jobs:
           node-version: 22
 
       - name: Install app dependencies
-        run: npm ci
+        # npm install, not npm ci: package-lock.json can drift slightly
+        # behind package.json (same as Vercel's own build, which already
+        # tolerates this) -- npm ci is strict about that and will hard-fail.
+        run: npm install
 
       - name: Install Playwright (this job only — never committed to the repo)
         run: |
