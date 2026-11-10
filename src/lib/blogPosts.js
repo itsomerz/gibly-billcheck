@@ -23,6 +23,55 @@
 
 export const BLOG_POSTS = [
   {
+    slug: "transmission-distribution-charges-alberta",
+    title: "Understanding Transmission and Distribution Charges on Your Alberta Energy Bill",
+    description:
+      "Learn about the transmission and distribution charges on your Alberta energy bill and how they impact your costs.",
+    publishedAt: "2026-11-10",
+    tags: ["energy bills", "alberta", "charges"],
+    blocks: [
+      {
+        type: "p",
+        text:
+          "If you’ve ever examined your Alberta energy bill closely, you may have noticed charges labeled as **transmission** and **distribution** fees. Understanding these can help demystify the overall cost of your energy consumption.",
+      },
+      { type: "h2", text: "What Are Transmission and Distribution Charges?" },
+      {
+        type: "p",
+        text:
+          "Transmission charges cover the cost of moving electricity from generation sites to local substations. **Distribution charges**, on the other hand, are the costs associated with delivering that electricity from substations to your home or business.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Transmission is like the highway for electricity, moving it across long distances.",
+          "Distribution is like the local roads, transporting electricity the final leg to your door.",
+          "Both fees are typically included in your monthly bill, regardless of your energy provider.",
+        ],
+      },
+      { type: "h2", text: "How Do These Charges Affect Your Bill?" },
+      {
+        type: "p",
+        text:
+          "These charges might seem small but can contribute significantly to the total on your energy bill. They are regulated fees and tend to remain consistent, offering little room for consumers to alter them through provider choice.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Transmission and distribution charges are not influenced by your energy usage.",
+          "The Alberta Utilities Commission (AUC) regulates these rates to ensure fairness.",
+          "Consider these fees as non-negotiable parts of your energy costs.",
+        ],
+      },
+      {
+        type: "cta",
+        text: null,
+        href: "/rates",
+        label: "Compare your energy rates on BillZap today.",
+      },
+    ],
+  },
+  {
     slug: "rate-of-last-resort-alberta-explained",
     title: "What Is the Rate of Last Resort (RoLR) in Alberta — And Should You Be On It?",
     description:
