@@ -18,6 +18,9 @@ export const metadata = {
   description: "Compare your energy rate against real offers and see how much you could save.",
   verification: {
     google: "Eh_HcLxZjM8BIoX6IVUfOp7nwml8mp5MJBmj42cT19w",
+    other: {
+      "msvalidate.01": "418ED4977F34940C624509C51D328533",
+    },
   },
 };
 
