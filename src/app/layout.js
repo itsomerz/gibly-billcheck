@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { ProvinceProvider } from "@/lib/ProvinceContext";
 import "./globals.css";
 
@@ -15,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "BillZap",
   description: "Compare your energy rate against real offers and see how much you could save.",
+  verification: {
+    google: "Eh_HcLxZjM8BIoX6IVUfOp7nwml8mp5MJBmj42cT19w",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -25,6 +29,7 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <ProvinceProvider>{children}</ProvinceProvider>
+        <Analytics />
       </body>
     </html>
   );
