@@ -23,6 +23,47 @@
 
 export const BLOG_POSTS = [
   {
+    slug: "decoding-delivery-charges-alberta-bill",
+    title: "Decoding Delivery Charges on Your Alberta Energy Bill",
+    description:
+      "Learn about the delivery charges on your Alberta energy bill and how they impact your costs.",
+    publishedAt: "2026-11-12",
+    tags: ["energy bill", "delivery charges", "alberta"],
+    blocks: [
+      {
+        type: "p",
+        text:
+          "Bills can be confusing, and one of the often misunderstood parts is the **delivery charges**. These costs can significantly impact what you pay each month, regardless of your energy usage.",
+      },
+      { type: "h2", text: "What Are Delivery Charges?" },
+      {
+        type: "p",
+        text:
+          "Delivery charges cover the cost of getting electricity and natural gas from the provider to your home. This involves maintenance of the delivery network, infrastructure, and ensuring reliable service.",
+      },
+      { type: "h2", text: "Components of Delivery Charges" },
+      {
+        type: "ul",
+        items: [
+          "**Transmission Charges**: Costs of moving energy between regions.",
+          "**Distribution Charges**: Local delivery fees to your specific area.",
+          "**Balancing Pool Charges**: Adjustments related to the balancing pool account.",
+        ],
+      },
+      {
+        type: "p",
+        text:
+          "Understanding these charges can help you better manage your energy budget. While you can't choose to avoid these costs, being aware of how they're structured may assist in making informed decisions.",
+      },
+      {
+        type: "cta",
+        text: null,
+        href: "/rates",
+        label: "Compare your current rate on BillZap to ensure you're not overpaying.",
+      },
+    ],
+  },
+  {
     slug: "transmission-distribution-charges-alberta",
     title: "Understanding Transmission and Distribution Charges on Your Alberta Energy Bill",
     description:
